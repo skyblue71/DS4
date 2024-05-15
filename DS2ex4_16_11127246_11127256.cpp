@@ -45,24 +45,25 @@ public:
         }
         node = 0;
         vector<Vertex>().swap(vertices); // 清空頂點串列
-        char putID[13], getID[13];
+        char putID[12], getID[12]; // 宣告 12 個字元的陣列
         float weight;
 
         while (infile.read(putID, 12)) {
-            putID[12] = '\0';
             infile.read(getID, 12);
-            getID[12] = '\0';
             infile.read((char*)&weight, sizeof(float));
 
-            string putIDStr = putID; // 發送者學號
-            string getIDStr = getID; // 接收者學號
+            string putIDStr(putID, 12);  
+            string getIDStr(getID, 12);  
+            putIDStr = putIDStr.c_str(); // 確保字符串以空字元終止
+            getIDStr = getIDStr.c_str(); // 確保字符串以空字元終止
+
             Edge edge = {getIDStr, weight}; // 創建邊
             node++;
-            int index = findVertexIndex(putIDStr); //  找發送者頂點索引
+            int index = findVertexIndex(putIDStr); // 找發送者頂點索引
             if (index == -1) {
                 vertices.push_back({putIDStr, vector<Edge>{edge}}); // 如果不存在，創建新的頂點
             } 
-			else {
+	    else {
                 vertices[index].edges.push_back(edge); // 如果存在，添加邊到現有頂點
             }
         }
@@ -71,7 +72,7 @@ public:
         }
 
         sortVertices(); // 排序頂點
-        infile.close();
+        infile.close(); // 關閉文件
         return true;
     }
 
