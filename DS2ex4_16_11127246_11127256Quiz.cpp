@@ -345,7 +345,7 @@ public:
         vector<vector<int>> influenceNodesList;// 影響力節點串列
         random_device rd;  		//隨機數生成器
 	    mt19937 gen(rd()); 		//以rd初始化的隨機數引擎
-	    uniform_real_distribution<> dis(0.5, 1.0); 
+	    uniform_real_distribution<> dis(0.5,nextafter(1.0, 2.0));
 		using namespace chrono;
         auto start = high_resolution_clock::now();
         
