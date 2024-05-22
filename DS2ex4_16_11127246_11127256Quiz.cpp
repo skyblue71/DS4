@@ -343,12 +343,14 @@ public:
         vector<string> ids;// 學號串列
         vector<int> influenceCounts;// 影響力數量串列
         vector<vector<int>> influenceNodesList;// 影響力節點串列
-        srand(time(0)); // 初始化隨機數生成器
+        random_device rd;  		//隨機數生成器
+	    mt19937 gen(rd()); 		//以rd初始化的隨機數引擎
+	    uniform_real_distribution<> dis(0.5, 1.0); 
 		using namespace chrono;
         auto start = high_resolution_clock::now();
         
         for (int i = 0; i < vertices.size(); i++) {
-            float threshold = 0.5 + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.5)); // 隨機生成 0.5 到 1.0 之間的門檻
+            float threshold = dis(gen); // 隨機生成 0.5 到 1.0 之間的門檻
             vector<int> visitedNodes;
             int influence = dfs(i, threshold, visitedNodes);// 執行DFS計算影響力
             if (influence != 0) {
